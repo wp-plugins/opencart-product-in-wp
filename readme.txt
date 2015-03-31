@@ -10,7 +10,7 @@ Requires at least: 3.5
 
 Tested up to: 4.1
 
-Stable tag: 1.0
+Stable tag: 1.0.1
 
 License: GPLv2 or later
 
@@ -61,7 +61,13 @@ Access the plugin's UI in the WordPres dashboard under the "Settings > Opencart 
 Visit the plugin site at http://www.rajibdewan.com/opencart-product-wp/ for screenshots more info.
 
 == Changelog ==
-None
+
+= 1.0.1 =
+*Release Date - 31st March, 2015*
+
+* Performance improvements.
+* Added Currency Symbol.
+* Fix for Product Price issue. 
 
 == Upgrade Notice ==
 None

@@ -4,7 +4,7 @@
 	Plugin URI: http://www.rajibdewan.com/opencart-product-wp/
 	Description: Plugin for displaying list of Category or Product from external Opencart store
 	Author: Md. Rajib Dewan
-	Version: 1.0
+	Version: 1.0.1
 	Author URI: http://www.rajibdewan.com
 */
 	function ocpwp_admin() {
@@ -118,8 +118,13 @@
 		$image_folder = get_option('ocpwp_prod_img_folder');
 		
 		$qry = "SELECT value FROM {$table_pre}setting AS st WHERE st.key = 'config_currency'";
-		$cur_qry = $ocdb->get_row($qry);			
-
+		$cur_qry  = $ocdb->get_row($qry);
+		$cur_code = $cur_qry->value;
+		
+		$qry1 = "SELECT symbol_left, symbol_right, value FROM {$table_pre}currency AS currency WHERE currency.code = '{$cur_code}'";
+		$cur_qry1 = $ocdb->get_row($qry1);
+		$cur_conv_rate = $cur_qry1->value;
+		
 		$query = "SELECT ptc.product_id, pd.name, p.image, p.price
 					FROM {$table_pre}product_to_category AS ptc
 					LEFT JOIN {$table_pre}product_description AS pd ON ptc.product_id = pd.product_id
@@ -140,7 +145,7 @@
 			$retval .= '<li>';
 			$retval .= '<img src="'.$prod_img. '" class="prod-thumb" /><br />';
 			$retval .= '<a href="'.$prod_url.'" class="prod-name" target="_blank">' . $product->name . '</a><br />';
-			$retval .= 'Price: <span class="prod-price">'.$cur_qry->value.'&nbsp;'.number_format ($product->price, 2).'</span><br />';  
+			$retval .= 'Price: <span class="prod-price">' . $cur_qry1->symbol_left . number_format ($product->price * $cur_conv_rate, 2) . $cur_qry1->symbol_right . '</span><br />';
 			$retval .= '<a href="'.$prod_url.'" target="_blank"> <input class="button" type="button" value="View Details" />'.'</a><br />';
 			$retval .= '</li>';
 		}
